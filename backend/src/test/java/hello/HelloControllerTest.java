@@ -42,6 +42,6 @@ public class HelloControllerTest {
         )
                 //Check spring-starter [test] in Run tab for failure details
                 .andExpect(status().isOk())
-                .andExpect(content().string(equalTo("Hello world!")));
+                .andExpect(content().string(equalTo("Hello DOCKER world!")));
     }
 }
