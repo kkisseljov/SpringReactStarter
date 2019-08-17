@@ -1,0 +1,5 @@
+NOTES:
+
+    $curl localhost:8080        //To test endpoints via terminal
+
+    Click on spring-starter/Lifecycle/test  in Maven tab to run tests
