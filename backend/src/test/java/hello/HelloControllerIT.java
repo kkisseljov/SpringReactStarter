@@ -22,6 +22,7 @@ import static org.junit.Assert.assertThat;
  * webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
  * and the actual port is discovered at runtime with the @LocalServerPort.
  */
+//TODO Figure out how to run this test. Only HelloControllerTest seems to be in use.
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class HelloControllerIT {
@@ -42,6 +43,6 @@ public class HelloControllerIT {
     @Test
     public void getHello() throws Exception {
         ResponseEntity<String> response = template.getForEntity(base.toString(), String.class);
-        assertThat(response.getBody(), equalTo("Hello world!"));
+        assertThat(response.getBody(), equalTo("Hello DOCKER world!"));
     }
 }

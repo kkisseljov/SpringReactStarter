@@ -3,3 +3,23 @@ NOTES:
     $curl localhost:8080        //To test endpoints via terminal
 
     Click on spring-starter/Lifecycle/test  in Maven tab to run tests
+
+//Prerequisites
+Install docker:             https://docs.docker.com/install/linux/docker-ce/ubuntu/
+Install docker-compose:     https://docs.docker.com/compose/install/
+Install mvnw:               https://maven.apache.org/
+
+//NEW WORKFLOW
+
+$ docker build -t starter-app-server .
+
+After build is done check that you have the image
+$ docker images
+
+$ docker-compose up
+
+To sh into mysql server
+$ docker exec -it backend_db_1 /bin/bash
+    $ mysql --user=root --password
+    $ show databases;
+    $ use starter-db;

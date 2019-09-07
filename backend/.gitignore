@@ -1,3 +1,6 @@
 .idea
 backend.iml
 /target/
+target
+/target
+/.mvn/wrapper/
