@@ -1,62 +1,39 @@
-#  Taken from: "https://spring.io/guides/gs/spring-boot-docker/" Containerize it
-#FROM openjdk:8-jdk-alpine
-#VOLUME /tmp
-#ARG JAR_FILE
-#COPY ${JAR_FILE} app.jar
-#ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+#Taken from https://www.callicoder.com/spring-boot-mysql-react-docker-compose-example/
 
-#Slightly different implementation, taken from same place
-#FROM openjdk:8-jdk-alpine
-#VOLUME /tmp
-#ARG DEPENDENCY=target/dependency
-#COPY ${DEPENDENCY}/BOOT-INF/lib /app/lib
-#COPY ${DEPENDENCY}/META-INF /app/META-INF
-#COPY ${DEPENDENCY}/BOOT-INF/classes /app
-##Should point to our application class where SpringApplication.run() is called
-#ENTRYPOINT ["java","-cp","app:app/lib/*","hello.BootApplication"]
+#### Stage 1: Build the application
+FROM openjdk:8-jdk-alpine as build
 
-# Taken from: "https://spring.io/guides/topicals/spring-boot-docker/"
-#FROM openjdk:8-jdk-alpine
-#VOLUME /tmp
-#ARG JAR_FILE
-#COPY ${JAR_FILE} app.jar
-#ENTRYPOINT ["java","-jar","/app.jar"]
+# Set the current working directory inside the image
+WORKDIR /app
 
-#FROM openjdk:8-jdk-alpine
-#VOLUME /tmp
-#COPY target/*.jar app.jar
-#ENTRYPOINT ["java","-jar","/app.jar"]
+# Copy maven executable to the image
+COPY mvnw .
+COPY .mvn .mvn
 
-#Better docker file
-FROM openjdk:8-jdk-alpine
-VOLUME /tmp
-ARG DEPENDENCY=target/dependency
-COPY ${DEPENDENCY}/BOOT-INF/lib /app/lib
-COPY ${DEPENDENCY}/META-INF /app/META-INF
-COPY ${DEPENDENCY}/BOOT-INF/classes /app
+# Copy the pom.xml file
+COPY pom.xml .
+
+# Build all the dependencies in preparation to go offline.
+# This is a separate step so the dependencies will be cached unless
+# the pom.xml file has changed.
+RUN ./mvnw dependency:go-offline -B
+
+# Copy the project source
+COPY src src
+
+# Package the application
+RUN ./mvnw package -DskipTests
+RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
+
+#### Stage 2: A minimal docker image with command to run the app
+FROM openjdk:8-jre-alpine
+
+ARG DEPENDENCY=/app/target/dependency
+
+# Copy project dependencies from the build stage
+COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
+COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
+COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
+
+#TODO Update application reference when it will renamed
 ENTRYPOINT ["java","-cp","app:app/lib/*","hello.BootApplication"]
-
-#Multi-Stage build
-#FROM openjdk:8-jdk-alpine as build
-#WORKDIR /workspace/app
-#
-##Fails on this step. Doesn't see mvnw and cannot copy it.
-#COPY mvnw .
-#COPY .mvn .mvn
-#COPY pom.xml .
-#COPY src src
-#
-#RUN ./mvnw install -DskipTests
-#RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
-#
-#FROM openjdk:8-jdk-alpine
-#VOLUME /tmp
-#ARG DEPENDENCY=/workspace/app/target/dependency
-#COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
-#COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
-#COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
-#ENTRYPOINT ["java","-cp","app:app/lib/*","hello.BootApplication"]
-
-#
-#       Skipped the rest of the guide for now due to mvnw issue with configuration aboce
-#

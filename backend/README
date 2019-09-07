@@ -4,25 +4,22 @@ NOTES:
 
     Click on spring-starter/Lifecycle/test  in Maven tab to run tests
 
+//Prerequisites
+Install docker:             https://docs.docker.com/install/linux/docker-ce/ubuntu/
+Install docker-compose:     https://docs.docker.com/compose/install/
+Install mvnw:               https://maven.apache.org/
 
-DOCKER WORKFLOW:
+//NEW WORKFLOW
 
-To get a .jar file
-./mvnw install      //I just clicked spring-starter/Lifecycle/install in Maven tab
-
-To build docker image cd into /backend folder and           //TODO change myorg/myapp to something meaningful
-$ docker build -t myorg/myapp .
+$ docker build -t starter-app-server .
 
 After build is done check that you have the image
 $ docker images
 
-To run it
-$ docker run -p 8080:8080 myorg/myapp
+$ docker-compose up
 
-To get inside the image
-$ docker run -ti --entrypoint /bin/sh myorg/myapp
-
-For a better docker file.
-$ mkdir target/dependency
-$ (cd target/dependency; jar -xf ../*.jar)
-$ docker build -t myorg/myapp .
+To sh into mysql server
+$ docker exec -it backend_db_1 /bin/bash
+    $ mysql --user=root --password
+    $ show databases;
+    $ use starter-db;
