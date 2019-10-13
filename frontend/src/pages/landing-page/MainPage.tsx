@@ -13,6 +13,7 @@ export class MainPage extends React.Component {
   componentWillUnmount(): void {
   }
 
+  //Declaring functions like this would automatically bind them to the class
   handleClick = (someProp: string) => {
     console.log('Clicked on MainPage:', someProp);
   };

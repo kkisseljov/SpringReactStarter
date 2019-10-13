@@ -1,33 +1,14 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import { MainPage } from './pages/landing-page/MainPage';
-import { SomeItemDetailsPage } from './pages/some-item-details-page/SomeItemDetailsPage';
+import logo from '../assets/svg/logo.svg';
+import './App.scss';
 import {
   BrowserRouter as Router,
   Link,
   Switch,
   Route
 } from 'react-router-dom';
-
-
-
-/*
-CONTENTS OF HEADER IN STARTER
-
-<img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
- */
+import { SomeItemDetailsPage } from '../pages/some-item-details-page/SomeItemDetailsPage';
+import { MainPage } from '../pages/landing-page/MainPage';
 
 //TODO Map routes to a config and move it to separate file
 // Will reduce this part, while routes in a config would be much easier to read
@@ -38,7 +19,8 @@ const App: React.FC = () => {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo"/>
-        {/* TODO Make a header component and replace <header> */}
+        {/* TODO Make a header component and replace <header>.
+        Perhaps should be a fragment. Not sure if using <header> is actually required */}
       </header>
       <Router>
         <div style={{display: 'flex'}}>
