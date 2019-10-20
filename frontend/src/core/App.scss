@@ -1,23 +1,43 @@
 @import 'styles/shared';
 
 .App {
+  width: 65%;
+  margin: auto;
+
+  background-color: white;
+
   text-align: center;
 }
 
 .App-logo {
-  height: 150px;
+  height: 120px;
 }
 
 .App-header {
   background-color: #282c34;
-  min-height: 150px;
-  display: flex;
-  margin: auto;
+  height: 120px;
+  width: 100%;
+
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.App-body {
+  display: grid;
+  grid-template-areas:
+          'navbar authbar'
+          'content content';
+}
+
+.App-content {
+  grid-area: content;
+  min-height: calc(100vh - 120px - 50px - 51px);
+  border-top: 1px solid #a6a6a6;
+
+  padding: 25px;
 }
 
 .App-link {

@@ -1,0 +1,16 @@
+@import '../../styles/shared';
+
+.NavBar {
+  grid-area: navbar;
+
+  display: flex;
+  flex-direction: row;
+  align-content: flex-start;
+
+  height: 50px;
+
+  > a {
+    padding: 5px;
+    margin: 10px;
+  }
+}

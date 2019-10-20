@@ -9,6 +9,8 @@ import {
 } from 'react-router-dom';
 import { SomeItemDetailsPage } from '../pages/some-item-details-page/SomeItemDetailsPage';
 import { MainPage } from '../pages/landing-page/MainPage';
+import { NavBar } from './components/NavBar/NavBar';
+import { AuthBar } from './components/AuthBar/AuthBar';
 
 //TODO Map routes to a config and move it to separate file
 // Will reduce this part, while routes in a config would be much easier to read
@@ -23,20 +25,19 @@ const App: React.FC = () => {
         Perhaps should be a fragment. Not sure if using <header> is actually required */}
       </header>
       <Router>
-        <div style={{display: 'flex'}}>
-          <nav style={{display: 'inline-flex'}}>
-            <Link to={'/'}>Home</Link>
-            <Link to={'/some-item-details'}>Item details</Link>
-          </nav>
-
-          <Switch>
-            <Route path={'/some-item-details'}>
-              <SomeItemDetailsPage/>
-            </Route>
-            <Route path={'/'}>
-              <MainPage/>
-            </Route>
-          </Switch>
+        <div className="App-body">
+          <NavBar/>
+          <AuthBar/>
+          <div className="App-content">
+            <Switch>
+              <Route path={'/some-item-details'}>
+                <SomeItemDetailsPage/>
+              </Route>
+              <Route path={'/'}>
+                <MainPage/>
+              </Route>
+            </Switch>
+          </div>
         </div>
       </Router>
     </div>
